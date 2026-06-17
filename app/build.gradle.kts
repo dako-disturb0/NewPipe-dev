@@ -9,6 +9,8 @@ import java.util.regex.Pattern
 
 plugins {
     alias(libs.plugins.android.application)
+    alias(libs.plugins.jetbrains.compose.multiplatform)
+    alias(libs.plugins.jetbrains.kotlin.compose)
     alias(libs.plugins.android.legacy.kapt)
     alias(libs.plugins.google.ksp)
     alias(libs.plugins.jetbrains.kotlin.parcelize)
@@ -132,6 +134,7 @@ configure<ApplicationExtension> {
         viewBinding = true
         buildConfig = true
         resValues = true
+        compose = true
     }
 
     packaging {

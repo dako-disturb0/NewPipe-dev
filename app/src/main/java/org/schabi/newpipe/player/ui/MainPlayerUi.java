@@ -82,6 +82,7 @@ import java.util.stream.Collectors;
 public final class MainPlayerUi extends VideoPlayerUi implements View.OnLayoutChangeListener {
     private org.schabi.newpipe.player.ui.MainPlayerControlsContainer composeControlsContainer;
 
+
     private static final String TAG = MainPlayerUi.class.getSimpleName();
 
     // see the Javadoc of calculateMaxEndScreenThumbnailHeight for information
@@ -112,6 +113,29 @@ public final class MainPlayerUi extends VideoPlayerUi implements View.OnLayoutCh
     public MainPlayerUi(@NonNull final Player player,
                         @NonNull final PlayerBinding playerBinding) {
         super(player, playerBinding);
+        this.composeControlsContainer = playerBinding.composeControlsContainer;
+        if (composeControlsContainer != null) {
+            composeControlsContainer.setOnPlayPauseClicked(() -> {
+                player.playPause();
+                return null;
+            });
+            composeControlsContainer.setOnPreviousClicked(() -> {
+                player.playPrevious();
+                return null;
+            });
+            composeControlsContainer.setOnNextClicked(() -> {
+                player.playNext();
+                return null;
+            });
+            composeControlsContainer.setOnSeek(progress -> {
+                // Not fully implemented yet, just a stub
+                return null;
+            });
+            composeControlsContainer.setOnSeekComplete(() -> {
+                // Not fully implemented yet
+                return null;
+            });
+        }
     }
 
     /**
