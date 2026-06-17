@@ -292,6 +292,11 @@ dependencies {
 
     // Image loading
     implementation(libs.coil.compose)
+    implementation(libs.jetbrains.compose.material3)
+    implementation(libs.jetbrains.compose.ui)
+    implementation(libs.jetbrains.compose.foundation)
+    implementation(libs.jetbrains.compose.runtime)
+
     implementation(libs.coil.network.okhttp)
 
     // Markdown library for Android

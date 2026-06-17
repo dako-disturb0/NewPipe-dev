@@ -80,6 +80,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 public final class MainPlayerUi extends VideoPlayerUi implements View.OnLayoutChangeListener {
+    private org.schabi.newpipe.player.ui.MainPlayerControlsContainer composeControlsContainer;
+
     private static final String TAG = MainPlayerUi.class.getSimpleName();
 
     // see the Javadoc of calculateMaxEndScreenThumbnailHeight for information
@@ -402,6 +404,22 @@ public final class MainPlayerUi extends VideoPlayerUi implements View.OnLayoutCh
                                  final int duration,
                                  final int bufferPercent) {
         super.onUpdateProgress(currentProgress, duration, bufferPercent);
+
+        if (composeControlsContainer != null) {
+            composeControlsContainer.isPlaying().setValue(player.isPlaying());
+            composeControlsContainer.getShowPrev().setValue(true);
+            composeControlsContainer.getShowNext().setValue(true);
+            composeControlsContainer.getCurrentTime()
+                    .setValue(getTimeString(currentProgress));
+            composeControlsContainer.getEndTime()
+                    .setValue(getTimeString(duration));
+
+            if (duration > 0) {
+                composeControlsContainer.getProgress().setValue((float) currentProgress / duration);
+            }
+            composeControlsContainer.getBufferProgress().setValue(bufferPercent / 100f);
+        }
+
 
         if (areSegmentsVisible) {
             segmentAdapter.selectSegmentAt(getNearestStreamSegmentPosition(currentProgress));
