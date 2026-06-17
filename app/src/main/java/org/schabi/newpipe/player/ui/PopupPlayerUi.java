@@ -2,7 +2,6 @@ package org.schabi.newpipe.player.ui;
 
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 import static org.schabi.newpipe.MainActivity.DEBUG;
-import static org.schabi.newpipe.player.helper.PlayerHelper.getMinimumVideoHeight;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -32,6 +31,7 @@ import androidx.core.math.MathUtils;
 
 import com.google.android.exoplayer2.ui.AspectRatioFrameLayout;
 import com.google.android.exoplayer2.ui.SubtitleView;
+import com.google.android.exoplayer2.video.VideoSize;
 
 import org.schabi.newpipe.R;
 import org.schabi.newpipe.databinding.PlayerBinding;
@@ -39,7 +39,6 @@ import org.schabi.newpipe.databinding.PlayerPopupCloseOverlayBinding;
 import org.schabi.newpipe.player.Player;
 import org.schabi.newpipe.player.gesture.BasePlayerGestureListener;
 import org.schabi.newpipe.player.gesture.PopupPlayerGestureListener;
-import org.schabi.newpipe.player.helper.PlayerHelper;
 import org.schabi.newpipe.util.DeviceUtils;
 
 public final class PopupPlayerUi extends VideoPlayerUi {
@@ -290,8 +289,44 @@ public final class PopupPlayerUi extends VideoPlayerUi {
     /**
      * Changes the size of the popup based on the width.
      * @param width the new width, height is calculated with
-     *              {@link PlayerHelper#getMinimumVideoHeight(float)}
+     *              PlayerHelper
      */
+
+    private float currentAspectRatio = 16.0f / 9.0f;
+
+    private float getClosestAspectRatio(final float ratio) {
+        final float[] aspectRatios = {
+            9.0f / 16.0f,
+            3.0f / 4.0f,
+            1.0f / 1.0f,
+            4.0f / 3.0f,
+            16.0f / 9.0f
+        };
+        float closestRatio = aspectRatios[4];
+        float minDifference = Math.abs(ratio - closestRatio);
+        for (int i = 0; i < aspectRatios.length; i++) {
+            final float difference = Math.abs(ratio - aspectRatios[i]);
+            if (difference < minDifference) {
+                minDifference = difference;
+                closestRatio = aspectRatios[i];
+            }
+        }
+        return closestRatio;
+    }
+
+    @Override
+    public void onVideoSizeChanged(@NonNull final VideoSize videoSize) {
+        super.onVideoSizeChanged(videoSize);
+        if (videoSize.width == 0 || videoSize.height == 0) {
+            return;
+        }
+        final float videoAspectRatio = ((float) videoSize.width) / videoSize.height;
+        currentAspectRatio = getClosestAspectRatio(videoAspectRatio);
+        if (popupLayoutParams != null) {
+            changePopupSize(popupLayoutParams.width);
+        }
+    }
+
     public void changePopupSize(final int width) {
         if (DEBUG) {
             Log.d(TAG, "changePopupSize() called with: width = [" + width + "]");
@@ -303,7 +338,7 @@ public final class PopupPlayerUi extends VideoPlayerUi {
 
         final float minimumWidth = context.getResources().getDimension(R.dimen.popup_minimum_width);
         final int actualWidth = MathUtils.clamp(width, (int) minimumWidth, screenWidth);
-        final int actualHeight = (int) getMinimumVideoHeight(width);
+        final int actualHeight = (int) (actualWidth / currentAspectRatio);
         if (DEBUG) {
             Log.d(TAG, "updatePopupSize() updated values:"
                     + "  width = [" + actualWidth + "], height = [" + actualHeight + "]");
@@ -497,7 +532,7 @@ public final class PopupPlayerUi extends VideoPlayerUi {
         final float popupWidth = popupRememberSizeAndPos
                 ? prefs.getFloat(context.getString(R.string.popup_saved_width_key), defaultSize)
                 : defaultSize;
-        final float popupHeight = getMinimumVideoHeight(popupWidth);
+        final float popupHeight = (popupWidth / currentAspectRatio);
 
         final WindowManager.LayoutParams params = new WindowManager.LayoutParams(
                 (int) popupWidth, (int) popupHeight,
