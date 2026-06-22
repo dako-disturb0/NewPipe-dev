@@ -25,7 +25,6 @@ import com.xwray.groupie.viewbinding.GroupieViewHolder
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import org.schabi.newpipe.R
 import org.schabi.newpipe.database.feed.model.FeedGroupEntity.Companion.GROUP_ALL_ID
-import org.schabi.newpipe.databinding.DialogTitleBinding
 import org.schabi.newpipe.databinding.FeedItemCarouselBinding
 import org.schabi.newpipe.databinding.FragmentSubscriptionBinding
 import org.schabi.newpipe.error.ErrorInfo
@@ -300,13 +299,8 @@ class SubscriptionFragment : BaseStateFragment<SubscriptionState>() {
             }
         }
 
-        val dialogTitleBinding = DialogTitleBinding.inflate(LayoutInflater.from(requireContext()))
-        dialogTitleBinding.root.isSelected = true
-        dialogTitleBinding.itemTitleView.text = selectedItem.name
-        dialogTitleBinding.itemAdditionalDetails.visibility = View.GONE
-
         AlertDialog.Builder(requireContext())
-            .setCustomTitle(dialogTitleBinding.root)
+            .setTitle(selectedItem.name)
             .setItems(commands, actions)
             .show()
     }
