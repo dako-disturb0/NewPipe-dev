@@ -11,6 +11,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.android.legacy.kapt)
     alias(libs.plugins.google.ksp)
+    alias(libs.plugins.jetbrains.kotlin.compose)
     alias(libs.plugins.jetbrains.kotlin.parcelize)
     alias(libs.plugins.jetbrains.kotlinx.serialization)
     alias(libs.plugins.sonarqube)
@@ -130,6 +131,7 @@ configure<ApplicationExtension> {
 
     buildFeatures {
         viewBinding = true
+        compose = true
         buildConfig = true
         resValues = true
     }
@@ -291,6 +293,8 @@ dependencies {
     implementation(libs.lisawray.groupie.viewbinding)
 
     // Image loading
+    implementation(libs.jetbrains.compose.ui)
+    implementation(libs.jetbrains.compose.material3)
     implementation(libs.coil.compose)
     implementation(libs.coil.network.okhttp)
 
