@@ -18,7 +18,7 @@ import org.schabi.newpipe.util.ThemeHelper;
 import org.schabi.newpipe.views.FocusOverlayView;
 
 import us.shandian.giga.service.DownloadManagerService;
-import us.shandian.giga.ui.fragment.MissionsFragment;
+import org.schabi.newpipe.download.DownloadFragment;
 
 public class DownloadActivity extends AppCompatActivity {
 
@@ -63,7 +63,7 @@ public class DownloadActivity extends AppCompatActivity {
     }
 
     private void updateFragments() {
-        final MissionsFragment fragment = new MissionsFragment();
+        final DownloadFragment fragment = new DownloadFragment();
 
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.frame, fragment, MISSIONS_FRAGMENT_TAG)

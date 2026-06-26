@@ -113,6 +113,7 @@ kotlin {
 
                 implementation(libs.russhwolf.settings.core)
                 implementation(libs.touchlab.kermit)
+                implementation(libs.coil.compose)
             }
         }
         commonTest.dependencies {

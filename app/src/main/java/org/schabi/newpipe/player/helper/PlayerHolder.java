@@ -49,12 +49,12 @@ public final class PlayerHolder {
     private boolean bound;
     @Nullable private PlayerService playerService;
 
-    private Optional<Player> getPlayer() {
+    public Optional<Player> getPlayer() {
         return Optional.ofNullable(playerService)
                 .flatMap(s -> Optional.ofNullable(s.getPlayer()));
     }
 
-    private Optional<PlayQueue> getPlayQueue() {
+    public Optional<PlayQueue> getPlayQueue() {
         // player play queue might be null e.g. while player is starting
         return getPlayer().flatMap(p -> Optional.ofNullable(p.getPlayQueue()));
     }

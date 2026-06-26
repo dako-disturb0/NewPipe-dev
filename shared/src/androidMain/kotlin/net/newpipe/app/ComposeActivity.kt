@@ -25,13 +25,23 @@ class ComposeActivity : ComponentActivity() {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
 
+        val additionalModules = try {
+            val clazz = Class.forName("org.schabi.newpipe.di.AppModuleKt")
+            val method = clazz.getMethod("getAppModule")
+            val module = method.invoke(null) as org.koin.core.module.Module
+            listOf(module)
+        } catch (e: Exception) {
+            emptyList()
+        }
+
         setContent {
             App(
                 // TODO: Change when everything is in compose and this is the primary activity
                 startDestination = Json.decodeFromString<Destination>(
                     intent.getStringExtra(Constants.INTENT_SCREEN_KEY)!!
                 ),
-                onCloseRequest = ::finish
+                onCloseRequest = ::finish,
+                additionalModules = additionalModules
             ) {
                 val view = LocalView.current
                 val service = currentService()

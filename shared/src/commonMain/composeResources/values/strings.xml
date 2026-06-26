@@ -34,4 +34,18 @@
     <string name="open_in_browser">Open in browser</string>
     <string name="done">Done</string>
     <string name="not_available">Not available</string>
+
+    <!-- PeerTube Instances -->
+    <string name="peertube_instance_url_title">PeerTube instances</string>
+    <string name="peertube_instance_url_help">Find the instances you like on %s</string>
+    <string name="peertube_instance_list_url">https://joinpeertube.org/instances#instances-list</string>
+    <string name="peertube_instance_add_title">Add instance</string>
+    <string name="peertube_instance_add_help">Enter instance URL</string>
+    <string name="peertube_instance_add_fail">Could not validate instance</string>
+    <string name="peertube_instance_add_https_only">Only HTTPS URLs are supported</string>
+    <string name="peertube_instance_add_exists">Instance already exists</string>
+    <string name="restore_defaults">Restore defaults</string>
+    <string name="restore_defaults_confirmation">Do you want to restore defaults?</string>
+    <string name="cancel">Cancel</string>
+    <string name="ok">OK</string>
 </resources>

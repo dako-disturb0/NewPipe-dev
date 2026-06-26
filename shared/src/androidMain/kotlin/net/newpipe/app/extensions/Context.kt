@@ -16,6 +16,15 @@ import net.newpipe.app.navigation.Destination
  * Navigates to a given compose destination
  */
 fun Context.navigateTo(destination: Destination) = Intent(this, ComposeActivity::class.java).also { intent ->
-    intent.putExtra(Constants.INTENT_SCREEN_KEY, Json.encodeToString(destination))
+    intent.putExtra(Constants.INTENT_SCREEN_KEY, Json.encodeToString(Destination.serializer(), destination))
     startActivity(intent)
+}
+
+object NavigationHelperComposeBridge {
+    @JvmStatic
+    fun getPlayQueueIntent(context: Context): Intent {
+        return Intent(context, ComposeActivity::class.java).apply {
+            putExtra(Constants.INTENT_SCREEN_KEY, Json.encodeToString(Destination.serializer(), Destination.PlayQueue))
+        }
+    }
 }
