@@ -8,6 +8,7 @@ import com.mikepenz.aboutlibraries.plugin.DuplicateMode
 import java.util.regex.Pattern
 
 plugins {
+    alias(libs.plugins.jetbrains.kotlin.compose)
     alias(libs.plugins.android.application)
     alias(libs.plugins.android.legacy.kapt)
     alias(libs.plugins.google.ksp)
@@ -129,6 +130,7 @@ configure<ApplicationExtension> {
     }
 
     buildFeatures {
+        compose = true
         viewBinding = true
         buildConfig = true
         resValues = true
@@ -348,4 +350,20 @@ aboutLibraries {
             Pattern.compile("^com\\.evernote:android-state$")
         )
     }
+}
+
+dependencies {
+    implementation(libs.androidx.activity)
+    implementation(libs.jetbrains.compose.ui)
+    implementation(libs.jetbrains.compose.material3)
+    implementation(libs.jetbrains.compose.foundation)
+    implementation(libs.jetbrains.compose.runtime)
+}
+
+dependencies {
+}
+
+dependencies {
+    implementation("androidx.compose.material:material-icons-core:1.6.0")
+    implementation("androidx.compose.material:material-icons-extended:1.6.0")
 }
